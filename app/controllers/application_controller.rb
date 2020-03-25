@@ -1,4 +1,5 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
+  protect_from_forgery with: :null_session
 
 
   def authenticate_and_set_user

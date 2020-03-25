@@ -1,4 +1,17 @@
 class Post < ApplicationRecord
   has_many :comments
   has_many :votes, :as => :voteable
+  after_commit :create_or_update_slug, if: :bad_slug
+
+  def bad_slug
+    self.slug != new_slug
+  end
+
+  def new_slug
+    "#{self.id}-#{title.parameterize}"
+  end
+
+  def create_or_update_slug
+    update_column('slug', new_slug)
+  end
 end

@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(post_params)
-
+    @post.user_id = @user_id
     if @post.save
       render json: @post, status: :created, location: @post
     else
@@ -28,6 +28,11 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   def update
+    if @post.user_id != @user_id
+      render json: {error: "Unauthorized", status: 401}
+      return
+    end
+
     if @post.update(post_params)
       render json: @post
     else
@@ -37,6 +42,11 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1
   def destroy
+    if @post.user_id != @user_id
+      render json: {error: "Unauthorized", status: 401}
+      return
+    end
+
     @post.destroy
   end
 
@@ -48,6 +58,6 @@ class PostsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def post_params
-      params.require(:post).permit(:Comment, :Reply, :Vote)
+      params.require(:post).permit(:Comment, :Reply, :Vote, :title, :body, sport_ids: [], tags: [])
     end
 end

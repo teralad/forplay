@@ -1,4 +1,7 @@
 class VotesController < ApplicationController
+  before_action :authenticate_and_set_user, only: [:create, :update, :destroy]
+  before_action :check_user_login_status, only: [:create, :update, :destroy]
+
   before_action :set_vote, only: [:show, :update, :destroy]
 
   # GET /votes
@@ -15,7 +18,17 @@ class VotesController < ApplicationController
 
   # POST /votes
   def create
-    @vote = Vote.new(vote_params)
+    @voteable = if params[:post_id].present?
+      Post.find_by(id: params[:post_id])
+    elsif params[:comment_id].present?
+      Comment.find_by(id: params[:comment_id])
+    elsif params[:reply_id].present?
+      Reply.find_by(id: params[:reply_id])
+    end
+
+    @vote = Vote.find_or_initialize_by(user_id: @user_id, voteable_id: @voteable.id, voteable_type: @voteable.class.name)
+    @vote.up = params[:up] if (params[:up].is_a?(TrueClass) || params[:up].is_a?(FalseClass))
+    @vote.down = params[:down] if (params[:down].is_a?(TrueClass) || params[:down].is_a?(FalseClass))
 
     if @vote.save
       render json: @vote, status: :created, location: @vote
@@ -46,6 +59,6 @@ class VotesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def vote_params
-      params.fetch(:vote, {})
+      params.fetch(:vote)
     end
 end
