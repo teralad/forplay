@@ -33,7 +33,7 @@ CACHE_VALUES = {
     organizations: 6
   },
   production: {
-    host: 'uk-platform-redis.i8wvph.ng.0001.euw2.cache.amazonaws.com',
+    host: 'stg-redis.i8wvph.ng.0001.euw2.cache.amazonaws.com',
     port: 6379,
     core: 0,
     event: 1,
