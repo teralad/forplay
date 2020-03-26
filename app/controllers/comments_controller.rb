@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
   before_action :check_user_login_status, only: [:create, :update, :destroy]
 
   before_action :set_comment, only: [:show, :update, :destroy]
-  before_action :set_post, only: [:create, :patch, :destroy]
+  before_action :set_post, only: [:create, :update, :destroy]
 
   # GET /comments
   def index
@@ -33,9 +33,15 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   def update
     if @comment.user_id != @user_id
-      render json: {error: "Unauthorized", status: 401}
+      render json: {error: "Unauthorized"}, status: 401
       return
     end
+
+    if @comment.post != @post
+      render json: {error: "The comment does not belong to the post"}, status: 422
+      return
+    end
+
     if @comment.update(comment_params)
       render json: @comment
     else
@@ -46,7 +52,12 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   def destroy
     if @comment.user_id != @user_id
-      render json: {error: "Unauthorized", status: 401}
+      render json: {error: "Unauthorized"}, status: 401
+      return
+    end
+
+    if @comment.post != @post
+      render json: {error: "The comment does not belong to the post"}, status: 422
       return
     end
 

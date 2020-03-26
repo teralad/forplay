@@ -29,7 +29,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1
   def update
     if @post.user_id != @user_id
-      render json: {error: "Unauthorized", status: 401}
+      render json: {error: "Unauthorized"}, status: 401
       return
     end
 
@@ -43,7 +43,7 @@ class PostsController < ApplicationController
   # DELETE /posts/1
   def destroy
     if @post.user_id != @user_id
-      render json: {error: "Unauthorized", status: 401}
+      render json: {error: "Unauthorized"}, status: 401
       return
     end
 

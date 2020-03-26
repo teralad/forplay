@@ -7,6 +7,8 @@ ruby '2.5.3'
 gem 'rails', '~> 6.0.2', '>= 6.0.2.2'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3', '~> 1.4'
+gem 'rack-cors', :require => 'rack/cors'
+
 gem 'mysql2'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
