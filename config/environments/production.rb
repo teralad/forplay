@@ -52,7 +52,6 @@ Rails.application.configure do
 
   # Suppress logger output for asset requests.
   config.assets.quiet = true
-  config.force_ssl = true
   config.log_level = :debug
   config.log_tags = [ :request_id ]
   config.active_support.deprecation = :notify
