@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
-
   def authenticate_and_set_user
     token = request.headers['HTTP_AUTHORIZATION']&.split(' ')&.last
     Rails.logger.info "Header auth is #{request.headers['HTTP_AUTHORIZATION']}"
@@ -18,5 +17,4 @@ class ApplicationController < ActionController::Base
       render json: {error: 'User not logged in'}, status: 401
     end
   end
-
 end

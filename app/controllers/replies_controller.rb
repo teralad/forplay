@@ -32,7 +32,7 @@ class RepliesController < ApplicationController
   # PATCH/PUT /replies/1
   def update
     if @reply.user_id != @user_id
-      render json: {error: "Unauthorized", status: 401}
+      render json: {error: "Forbidden"}, status: 403
       return
     end
 
@@ -46,7 +46,7 @@ class RepliesController < ApplicationController
   # DELETE /replies/1
   def destroy
     if @reply.user_id != @user_id
-      render json: {error: "Unauthorized", status: 401}
+      render json: {error: "Forbidden"}, status: 403
       return
     end
 
