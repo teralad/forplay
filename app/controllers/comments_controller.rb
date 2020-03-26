@@ -33,7 +33,7 @@ class CommentsController < ApplicationController
   # PATCH/PUT /comments/1
   def update
     if @comment.user_id != @user_id
-      render json: {error: "Unauthorized"}, status: 401
+      render json: {error: "Forbidden"}, status: 403
       return
     end
 
@@ -52,7 +52,7 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   def destroy
     if @comment.user_id != @user_id
-      render json: {error: "Unauthorized"}, status: 401
+      render json: {error: "Forbidden"}, status: 403
       return
     end
 
