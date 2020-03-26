@@ -20,16 +20,16 @@ module Forplay
       env.export_concurrent = false
     end
 
-    config.session_store :cookie_store
-    config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
-    config.middleware.use Rack::MethodOverride
+    # config.session_store :cookie_store
+    # config.middleware.use ActionDispatch::Cookies
+    # config.middleware.use ActionDispatch::Session::CookieStore, config.session_options
+    # config.middleware.use Rack::MethodOverride
 
-    config.action_dispatch.default_headers = {
-      'Access-Control-Allow-Origin' => '*',
-      'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
-      'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
-    }
+    # config.action_dispatch.default_headers = {
+    #   'Access-Control-Allow-Origin' => '*',
+    #   'Access-Control-Request-Method' => 'GET, PATCH, PUT, POST, OPTIONS, DELETE',
+    #   'Access-Control-Allow-Headers:' => 'Origin, X-Requested-With, Content-Type, Accept'
+    # }
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
