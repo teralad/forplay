@@ -11,7 +11,7 @@ ENV APP_HOME /app
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
-RUN gem install bundler:2.1.2
+RUN gem install bundler:2.1.4
 ADD Gemfile* $APP_HOME/
 RUN bundle install -j 5
 
@@ -19,4 +19,4 @@ ENV RAILS_ENV=production
 RUN yarn install --check-files
 ADD . $APP_HOME
 EXPOSE 3000
-CMD bundle exec rails server -b 0.0.0.0
+CMD bundle exec rails server -p 3000 -b 0.0.0.0
