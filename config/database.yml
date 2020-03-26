@@ -16,11 +16,12 @@ test:
   database: <%= "forplay_#{Rails.env}" %>
   host: localhost
 
-production:
+staging:
   adapter: mysql2
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
-  username: root
-  password: ''
-  database: <%= "forplay_#{Rails.env}" %>
-  host: localhost
+  username: admin
+  password: password
+  database: forplay_production
+  host: forplay.ci3jtk7usdj0.eu-west-2.rds.amazonaws.com
+  port: 3306
