@@ -5,14 +5,31 @@ class PostsController < ApplicationController
 
   # GET /posts
   def index
-    @posts = Post.all
+    page = params[:page] || 1
+    per = params[:per] || 10
+    @posts = Post.all.page(page).per(per)
 
     render json: @posts
   end
 
   # GET /posts/1
   def show
+    @post.update_column('counter', @post.counter+1)
     render json: @post
+  end
+
+  def recent
+    page = params[:page] || 1
+    per = params[:per] || 10
+    @posts = Post.order(updated_at: :desc).page(page).per(per)
+    render json: @posts
+  end
+
+  def popular
+    page = params[:page] || 1
+    per = params[:per] || 10
+    @posts = Post.order(counter: :desc).page(page).per(per)
+    render json: @posts
   end
 
   # POST /posts

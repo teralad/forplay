@@ -25,6 +25,7 @@ gem 'rails_admin'
 gem 'bootstrap-sass'
 gem 'redis'
 gem 'jwt'
+gem 'kaminari'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
