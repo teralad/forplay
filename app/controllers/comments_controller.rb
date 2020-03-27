@@ -3,11 +3,17 @@ class CommentsController < ApplicationController
   before_action :check_user_login_status, only: [:create, :update, :destroy]
 
   before_action :set_comment, only: [:show, :update, :destroy]
-  before_action :set_post, only: [:create, :update, :destroy]
+  before_action :set_post, only: [:create, :update, :destroy, :index]
 
   # GET /comments
   def index
-    @comments = Comment.all
+    page = params[:page] || 1
+    per = params[:per] || 10
+    @comments = if @post.present?
+      @post.comments.page(page).per(per)
+    else
+      Comment.all.page(page).per(per)
+    end
 
     render json: @comments
   end

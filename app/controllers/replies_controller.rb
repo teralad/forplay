@@ -2,12 +2,18 @@ class RepliesController < ApplicationController
   before_action :authenticate_and_set_user, only: [:create, :update, :destroy]
   before_action :check_user_login_status, only: [:create, :update, :destroy]
 
-  before_action :set_parent, only: [:create, :update, :destroy]
+  before_action :set_parent, only: [:create, :update, :destroy, :index]
   before_action :set_reply, only: [:show, :update, :destroy]
 
   # GET /replies
   def index
-    @replies = Reply.all
+    page = params[:page] || 1
+    per = params[:per] || 10
+    @replies = if @parent.present?
+      @parent.replies.page(page).per(per)
+    else
+      Reply.all.page(page).per(per)
+    end
 
     render json: @replies
   end
