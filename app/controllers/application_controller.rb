@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-  # protect_from_forgery with: :null_session
-  skip_before_action :verify_authenticity_token
-  protect_from_forgery prepend: true, with: :exception
+  protect_from_forgery #with: :null_session
+  # skip_before_action :verify_authenticity_token
+  # protect_from_forgery prepend: true, with: :exception
 
   def authenticate_and_set_user
     token = request.headers['HTTP_AUTHORIZATION']&.split(' ')&.last
