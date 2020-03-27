@@ -1,20 +1,11 @@
-# development:
-#   adapter: mysql2
-#   encoding: utf8mb4
-#   collation: utf8mb4_unicode_ci
-#   username: root
-#   password: ''
-#   database: <%= "forplay_#{Rails.env}" %>
-#   host: localhost
 development:
   adapter: mysql2
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
-  username: admin
-  password: password
-  database: forplay_production
-  host: forplay.ci3jtk7usdj0.eu-west-2.rds.amazonaws.com
-  port: 3306
+  username: root
+  password: ''
+  database: forplay_development
+  host: localhost
 
 test:
   adapter: mysql2
