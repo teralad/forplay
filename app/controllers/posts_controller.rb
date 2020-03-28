@@ -44,6 +44,13 @@ class PostsController < ApplicationController
     render json: ResponseFormatter.post_index_response(@posts)
   end
 
+  def search
+    page = params[:page] || 1
+    per = params[:per] || 10
+    @posts = Post.perform_ts(params[:q])
+    render json: ResponseFormatter.post_index_response(@posts)
+  end
+
   # POST /posts
   def create
     @post = Post.new(post_params)

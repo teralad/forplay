@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_130204) do
+ActiveRecord::Schema.define(version: 2020_03_28_134401) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.text "body"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 2020_03_28_130204) do
   end
 
   create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
-    t.string "title"
+    t.text "title"
     t.text "body"
     t.integer "user_id"
     t.float "sorting_score"
@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2020_03_28_130204) do
     t.index ["counter"], name: "index_posts_on_counter"
     t.index ["slug"], name: "index_posts_on_slug"
     t.index ["sport_ids"], name: "index_posts_on_sport_ids"
-    t.index ["title"], name: "index_posts_on_title"
+    t.index ["title", "body"], name: "title", type: :fulltext
     t.index ["updated_at"], name: "index_posts_on_updated_at"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end

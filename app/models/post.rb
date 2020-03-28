@@ -29,4 +29,11 @@ class Post < ApplicationRecord
     self.class.where(slug: slug).where.not(id: self.id).present? ? generate_slug(slug, counter+1) : slug
   end
 
+  def self.perform_ts(search_query)
+    if search_query.include?(" ")
+      Post.where("match(title,body) against (? IN BOOLEAN MODE)", search_query)
+    else
+      Post.where("title like '%#{search_query}%'")
+    end
+  end
 end
