@@ -7,9 +7,10 @@ class PostsController < ApplicationController
   def index
     page = params[:page] || 1
     per = params[:per] || 10
-    @posts = Post.all.page(page).per(per)
+    not_ids = Post.order(counter: :desc).limit(5).pluck(:id)
+    @posts = Post.where.not(id: not_ids).page(page).per(per)
 
-    render json: @posts
+    render json: ResponseFormatter.post_index_response(@posts)
   end
 
   # GET /posts/1
@@ -20,16 +21,16 @@ class PostsController < ApplicationController
 
   def recent
     page = params[:page] || 1
-    per = params[:per] || 5
+    per = params[:per] || 10
     @posts = Post.order(updated_at: :desc).page(page).per(per)
-    render json: @posts
+    render json: ResponseFormatter.post_index_response(@posts)
   end
 
   def popular
     page = params[:page] || 1
-    per = params[:per] || 5
+    per = params[:per] || 10
     @posts = Post.order(counter: :desc).page(page).per(per)
-    render json: @posts
+    render json: ResponseFormatter.post_index_response(@posts)
   end
 
   # POST /posts
