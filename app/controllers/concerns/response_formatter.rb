@@ -5,12 +5,17 @@ module ResponseFormatter
         sports = Sport.where(id: post.sport_ids.split(',')).compact
         sport_labels = sports.map{|sport| sport['name'] }
         user_details = Cache.core.get("user:#{post.user_id}:details")
-        user = JSON.parse(user_details)
-        post.attributes.merge({
+        resp = post.attributes.merge({
           sport_labels: sport_labels,
-          avatar: user['profile_pic'],
-          screen_name: user['screen_name']
+          avatar: '',
+          screen_name: ''
         })
+        if user_details.present?
+          user = JSON.parse(user_details)
+          resp[:avatar] = user['profile_pic']
+          resp[:screen_name] = user['screen_name']
+        end
+        resp
       end
     end
   end
