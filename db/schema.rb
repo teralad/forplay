@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_095149) do
+ActiveRecord::Schema.define(version: 2020_03_28_111059) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.text "body"
@@ -47,11 +47,14 @@ ActiveRecord::Schema.define(version: 2020_03_28_095149) do
     t.bigint "upvotes", default: 0
     t.bigint "downvotes", default: 0
     t.string "sport_ids", default: ""
-    t.string "tags"
+    t.string "tags", default: ""
     t.bigint "counter", default: 0
     t.bigint "comments_count", default: 0
     t.bigint "followers_count", default: 0
+    t.index ["counter"], name: "index_posts_on_counter"
+    t.index ["sport_ids"], name: "index_posts_on_sport_ids"
     t.index ["title"], name: "index_posts_on_title"
+    t.index ["updated_at"], name: "index_posts_on_updated_at"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
