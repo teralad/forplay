@@ -20,14 +20,14 @@ class PostsController < ApplicationController
 
   def recent
     page = params[:page] || 1
-    per = params[:per] || 10
+    per = params[:per] || 5
     @posts = Post.order(updated_at: :desc).page(page).per(per)
     render json: @posts
   end
 
   def popular
     page = params[:page] || 1
-    per = params[:per] || 10
+    per = params[:per] || 5
     @posts = Post.order(counter: :desc).page(page).per(per)
     render json: @posts
   end

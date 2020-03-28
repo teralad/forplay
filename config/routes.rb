@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     resources :comments
     get :recent, on: :collection
     get :popular, on: :collection
+
+    post :follow, on: :member, to: 'post_followers#create'
+    delete :unfollow, on: :member, to: 'post_followers#destroy'
   end
 
   resources :replies

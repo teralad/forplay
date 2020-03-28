@@ -1,0 +1,17 @@
+<%= form_with(model: post_follower, local: true) do |form| %>
+  <% if post_follower.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post_follower.errors.count, "error") %> prohibited this post_follower from being saved:</h2>
+
+      <ul>
+        <% post_follower.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
