@@ -7,8 +7,11 @@ class PostsController < ApplicationController
   def index
     page = params[:page] || 1
     per = params[:per] || 10
-    not_ids = Post.order(counter: :desc).limit(5).pluck(:id)
-    @posts = Post.where.not(id: not_ids).page(page).per(per)
+    @posts = if params[:sport_id].present?
+      Post.where("sport_ids like '%#{params[:sport_id]}%'").page(page).per(per)
+    else
+      Post.all.page(page).per(per)
+    end
 
     render json: ResponseFormatter.post_index_response(@posts)
   end
@@ -22,14 +25,22 @@ class PostsController < ApplicationController
   def recent
     page = params[:page] || 1
     per = params[:per] || 10
-    @posts = Post.order(updated_at: :desc).page(page).per(per)
+    @posts = if params[:sport_id].present?
+      Post.where("sport_ids like '%#{params[:sport_id]}%'").order(updated_at: :desc).page(page).per(per)
+    else
+      Post.order(updated_at: :desc).page(page).per(per)
+    end
     render json: ResponseFormatter.post_index_response(@posts)
   end
 
   def popular
     page = params[:page] || 1
     per = params[:per] || 10
-    @posts = Post.order(counter: :desc).page(page).per(per)
+    @posts = if params[:sport_id].present?
+      Post.where("sport_ids like '%#{params[:sport_id]}%'").order(updated_at: :desc).page(page).per(per)
+    else
+      Post.order(counter: :desc).page(page).per(per)
+    end
     render json: ResponseFormatter.post_index_response(@posts)
   end
 
