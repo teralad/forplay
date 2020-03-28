@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_081452) do
+ActiveRecord::Schema.define(version: 2020_03_28_091703) do
 
   create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.text "body"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2020_03_28_081452) do
     t.float "sorting_score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "upvotes"
-    t.bigint "downvotes"
+    t.bigint "upvotes", default: 0
+    t.bigint "downvotes", default: 0
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 2020_03_28_081452) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
     t.integer "status"
-    t.bigint "upvotes"
-    t.bigint "downvotes"
+    t.bigint "upvotes", default: 0
+    t.bigint "downvotes", default: 0
     t.integer "sport_ids"
     t.string "tags"
     t.bigint "counter", default: 0
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 2020_03_28_081452) do
     t.float "sorting_score"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "upvotes"
-    t.bigint "downvotes"
+    t.bigint "upvotes", default: 0
+    t.bigint "downvotes", default: 0
     t.index ["comment_id"], name: "index_replies_on_comment_id"
     t.index ["post_id"], name: "index_replies_on_post_id"
     t.index ["reply_id"], name: "index_replies_on_reply_id"
