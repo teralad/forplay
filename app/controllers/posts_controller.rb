@@ -82,7 +82,17 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.find(params[:id])
+      if !params[:id].present?
+        render status: 404, json: {error: "Need id for selecting event"}
+      end
+
+      # There's no way to know if a slug was sent or an id.
+      result = (Integer(params[:id]) rescue false)
+      @post = if result.is_a?(Integer)
+        Post.find(result)
+      else
+        Post.find_by(slug: params[:id])
+      end
     end
 
     # Only allow a trusted parameter "white list" through.
