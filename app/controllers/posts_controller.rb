@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :authenticate_and_set_user, only: [:create, :update, :destroy]
+  before_action :authenticate_and_set_user, only: [:create, :update, :destroy, :search, :index, :recent, :show, :popular]
   before_action :check_user_login_status, only: [:create, :update, :destroy]
   before_action :set_post, only: [:show, :update, :destroy]
 
@@ -13,13 +13,13 @@ class PostsController < ApplicationController
       Post.all.page(page).per(per)
     end
 
-    render json: ResponseFormatter.post_index_response(@posts)
+    render json: ResponseFormatter.post_index_response(@posts, @user_id)
   end
 
   # GET /posts/1
   def show
     @post.update_column('counter', @post.counter+1)
-    render json: @post
+    render json: ResponseFormatter.post_index_response([@post], @user_id)
   end
 
   def recent
@@ -30,7 +30,7 @@ class PostsController < ApplicationController
     else
       Post.order(updated_at: :desc).page(page).per(per)
     end
-    render json: ResponseFormatter.post_index_response(@posts)
+    render json: ResponseFormatter.post_index_response(@posts, @user_id)
   end
 
   def popular
@@ -41,14 +41,14 @@ class PostsController < ApplicationController
     else
       Post.order(counter: :desc).page(page).per(per)
     end
-    render json: ResponseFormatter.post_index_response(@posts)
+    render json: ResponseFormatter.post_index_response(@posts, @user_id)
   end
 
   def search
     page = params[:page] || 1
     per = params[:per] || 10
     @posts = Post.perform_ts(params[:q])
-    render json: ResponseFormatter.post_index_response(@posts)
+    render json: ResponseFormatter.post_index_response(@posts, @user_id)
   end
 
   # POST /posts
