@@ -32,8 +32,14 @@ class VotesController < ApplicationController
     end
 
     @vote = Vote.find_or_initialize_by(user_id: @user_id, voteable_id: @voteable.id, voteable_type: @voteable.class.name)
-    @vote.up = params[:up] if (params[:up].is_a?(TrueClass) || params[:up].is_a?(FalseClass))
-    @vote.down = params[:down] if (params[:down].is_a?(TrueClass) || params[:down].is_a?(FalseClass))
+    if (params[:up].is_a?(TrueClass) || params[:up].is_a?(FalseClass))
+      @vote.up = params[:up]
+      @vote.down = false
+    end
+    if (params[:down].is_a?(TrueClass) || params[:down].is_a?(FalseClass))
+      @vote.down = params[:down]
+      @vote.up = false
+    end
 
     if @vote.save
       render json: @vote, status: :created, location: @vote
