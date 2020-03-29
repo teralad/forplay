@@ -33,12 +33,14 @@ module ResponseFormatter
       resp = post_index_response([post], user_id).first
       comments = post.comments.order(upvotes: :desc).limit(5)
       resp[:comments] = comments.map do |comment|
+        reply_count = comment.replies.count
         comment_resp = {
           id: comment.id,
           body: comment.body,
           user_id: comment.user_id,
           upvotes: comment.upvotes,
           downvotes: comment.downvotes,
+          reply_count: reply_count,
           upvoted: false,
           downvoted: false
         }
