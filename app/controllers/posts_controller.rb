@@ -19,7 +19,7 @@ class PostsController < ApplicationController
   # GET /posts/1
   def show
     @post.update_column('counter', @post.counter+1)
-    render json: ResponseFormatter.post_index_response([@post], @user_id)
+    render json: ResponseFormatter.post_show_response(@post, @user_id)
   end
 
   def recent

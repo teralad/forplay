@@ -28,5 +28,29 @@ module ResponseFormatter
         resp
       end
     end
+
+    def post_show_response(post, user_id=nil)
+      resp = post_index_response([post], user_id).first
+      comments = post.comments.order(upvotes: :desc).limit(5)
+      resp[:comments] = comments.map do |comment|
+        comment_resp = {
+          id: comment.id,
+          body: comment.body,
+          user_id: comment.user_id,
+          upvotes: comment.upvotes,
+          downvotes: comment.downvotes,
+          upvoted: false,
+          downvoted: false
+        }
+        if user_id.present?
+          Vote.find_by(voteable_type: 'Comment', voteable_id: comment.id, user_id: user_id)
+          comment_resp[:upvoted] = vote.up
+          comment_resp[:downvoted] = vote.down
+        end
+        comment_resp
+      end
+      resp
+    end
+
   end
 end
