@@ -45,7 +45,7 @@ module ResponseFormatter
           downvoted: false
         }
         if user_id.present?
-          Vote.find_by(voteable_type: 'Comment', voteable_id: comment.id, user_id: user_id)
+          vote = Vote.find_by(voteable_type: 'Comment', voteable_id: comment.id, user_id: user_id)
           comment_resp[:upvoted] = vote.up
           comment_resp[:downvoted] = vote.down
         end
