@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :authenticate_and_set_user, only: [:create, :update, :destroy]
+  before_action :authenticate_and_set_user, only: [:create, :update, :destroy, :index]
   before_action :check_user_login_status, only: [:create, :update, :destroy]
 
   before_action :set_comment, only: [:show, :update, :destroy]
@@ -15,7 +15,7 @@ class CommentsController < ApplicationController
       Comment.all.page(page).per(per)
     end
 
-    render json: @comments
+    render json: ResponseFormatter.comments_index_response(@comments, @user_id)
   end
 
   # GET /comments/1

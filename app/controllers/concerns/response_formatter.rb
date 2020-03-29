@@ -67,6 +67,33 @@ module ResponseFormatter
       resp
     end
 
+    def comments_index_response(comments, user_id=nil)
+      comments.map do |comment|
+        user_details = Cache.core.get("user:#{comment.user_id}:details")
+        resp = comment.attributes.merge({
+          avatar: '',
+          screen_name: '',
+          upvoted: false,
+          downvoted: false
+        })
+
+        if user_details.present?
+          user = JSON.parse(user_details)
+          resp[:avatar] = user['profile_pic']
+          resp[:screen_name] = user['screen_name']
+        end
+
+        if user_id.present?
+          vote = Vote.find_by(voteable_type: 'Comment', voteable_id: comment.id, user_id: user_id)
+          if vote.present?
+            resp[:upvoted] = vote.up
+            resp[:downvoted] = vote.down
+          end
+        end
+        resp
+      end
+    end
+
     def replies_index_response(replies, user_id=nil)
       replies.map do |reply|
         user_details = Cache.core.get("user:#{reply.user_id}:details")
