@@ -1,5 +1,5 @@
 class RepliesController < ApplicationController
-  before_action :authenticate_and_set_user, only: [:create, :update, :destroy]
+  before_action :authenticate_and_set_user, only: [:create, :update, :destroy, :index, :show]
   before_action :check_user_login_status, only: [:create, :update, :destroy]
 
   before_action :set_parent, only: [:create, :update, :destroy, :index]
@@ -15,7 +15,7 @@ class RepliesController < ApplicationController
       Reply.all.page(page).per(per)
     end
 
-    render json: @replies
+    render json: ResponseFormatter.replies_index_response(@replies,@user_id)
   end
 
   # GET /replies/1
