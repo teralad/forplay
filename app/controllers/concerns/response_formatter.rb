@@ -74,7 +74,8 @@ module ResponseFormatter
           avatar: '',
           screen_name: '',
           upvoted: false,
-          downvoted: false
+          downvoted: false,
+          replies: []
         })
 
         if user_details.present?
@@ -89,6 +90,31 @@ module ResponseFormatter
             resp[:upvoted] = vote.up
             resp[:downvoted] = vote.down
           end
+        end
+
+        resp[:replies] = comment.replies.map do |reply|
+          reply_user_details = Cache.core.get("user:#{reply.user_id}:details")
+          reply_resp = reply.attributes.merge({
+            avatar: '',
+            screen_name: '',
+            upvoted: false,
+            downvoted: false
+          })
+
+          if reply_user_details.present?
+            reply_user = JSON.parse(reply_user_details)
+            reply_resp[:avatar] = reply_user['profile_pic']
+            reply_resp[:screen_name] = reply_user['screen_name']
+          end
+
+          if user_id.present?
+            reply_vote = Vote.find_by(voteable_type: 'Reply', voteable_id: reply.id, user_id: user_id)
+            if vote.present?
+              reply_resp[:upvoted] = vote.up
+              reply_resp[:downvoted] = vote.down
+            end
+          end
+          reply_resp
         end
         resp
       end
