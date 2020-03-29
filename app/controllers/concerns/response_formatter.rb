@@ -34,6 +34,7 @@ module ResponseFormatter
       comments = post.comments.order(upvotes: :desc).limit(5)
       resp[:comments] = comments.map do |comment|
         reply_count = comment.replies.count
+        user_details = Cache.core.get("user:#{comment.user_id}:details")
         comment_resp = {
           id: comment.id,
           body: comment.body,
@@ -44,8 +45,16 @@ module ResponseFormatter
           updated_at: comment.updated_at,
           reply_count: reply_count,
           upvoted: false,
-          downvoted: false
+          downvoted: false,
+          avatar: '',
+          screen_name: ''
         }
+        if user_details.present?
+          user = JSON.parse(user_details)
+          comment_resp[:avatar] = user['profile_pic']
+          comment_resp[:screen_name] = user['screen_name']
+        end
+
         if user_id.present?
           vote = Vote.find_by(voteable_type: 'Comment', voteable_id: comment.id, user_id: user_id)
           if vote.present?
