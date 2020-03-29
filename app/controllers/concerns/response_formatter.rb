@@ -40,6 +40,8 @@ module ResponseFormatter
           user_id: comment.user_id,
           upvotes: comment.upvotes,
           downvotes: comment.downvotes,
+          created_at: comment.created_at,
+          updated_at: comment.updated_at,
           reply_count: reply_count,
           upvoted: false,
           downvoted: false
