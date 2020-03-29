@@ -8,7 +8,7 @@ class RepliesController < ApplicationController
   # GET /replies
   def index
     page = params[:page] || 1
-    per = params[:per] || 10
+    per = params[:per] || 5
     @replies = if @parent.present?
       @parent.replies.page(page).per(per)
     else

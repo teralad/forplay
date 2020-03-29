@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
   # GET /comments
   def index
     page = params[:page] || 1
-    per = params[:per] || 10
+    per = params[:per] || 5
     @comments = if @post.present?
       @post.comments.page(page).per(per)
     else
