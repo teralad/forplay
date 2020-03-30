@@ -32,6 +32,8 @@ module ResponseFormatter
 
     def popular_comment(post, user_id)
       comment = post.comments.order(upvotes: :desc).first
+      return {} if comment.blank?
+
       comment_resp = {
         id: comment.id,
         body: comment.body,
