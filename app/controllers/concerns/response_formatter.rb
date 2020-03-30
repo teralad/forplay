@@ -10,7 +10,7 @@ module ResponseFormatter
           avatar: '',
           screen_name: '',
           upvoted: false,
-          downvoted: false
+          downvoted: false,
           popular_comment: popular_comment(post, user_id)
         })
         if user_details.present?
