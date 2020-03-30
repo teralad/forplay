@@ -36,4 +36,16 @@ class Post < ApplicationRecord
       Post.where("title like '%#{search_query}%'")
     end
   end
+
+  def self.fetch_by_sports(sport_ids)
+    return Post.order(id: :desc).limit(5) if sport_ids.blank?
+
+    sport_ids_query = ''
+    sport_ids.to_s.split(",").each_with_index do |sport_id, index|
+      sport_ids_query << " or " if index > 0
+      sport_ids_query << " sport_ids like '%#{sport_id.to_s}%' "
+    end
+    Post.where(sport_ids_query)
+  end
+
 end

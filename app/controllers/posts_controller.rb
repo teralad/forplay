@@ -9,6 +9,9 @@ class PostsController < ApplicationController
     per = params[:per] || 10
     @posts = if params[:sport_id].present?
       Post.where("sport_ids like '%#{params[:sport_id]}%'").page(page).per(per)
+    elsif params[:slug].present?
+      post_sports = Post.find_by_slug(params[:slug])&.sport_ids
+      Post.fetch_by_sports(post_sports)
     else
       Post.all.page(page).per(per)
     end
