@@ -63,7 +63,7 @@ module ResponseFormatter
           end
         end
         comment_resp
-      end
+      end&.first
       resp
     end
 
