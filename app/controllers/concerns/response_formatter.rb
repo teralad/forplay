@@ -31,8 +31,8 @@ module ResponseFormatter
 
     def post_show_response(post, user_id=nil)
       resp = post_index_response([post], user_id).first
-      comments = post.comments.order(upvotes: :desc).limit(5)
-      resp[:comments] = comments.map do |comment|
+      comments = post.comments.order(upvotes: :desc).limit(1)
+      resp[:popular_comment] = comments.map do |comment|
         reply_count = comment.replies.count
         user_details = Cache.core.get("user:#{comment.user_id}:details")
         comment_resp = {
