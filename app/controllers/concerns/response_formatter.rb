@@ -11,6 +11,7 @@ module ResponseFormatter
           screen_name: '',
           upvoted: false,
           downvoted: false
+          popular_comment: popular_comment(post, user_id)
         })
         if user_details.present?
           user = JSON.parse(user_details)
@@ -27,6 +28,39 @@ module ResponseFormatter
         end
         resp
       end
+    end
+
+    def popular_comment(post, user_id)
+      comment = post.comments.order(upvotes: :desc).first
+      comment_resp = {
+        id: comment.id,
+        body: comment.body,
+        user_id: comment.user_id,
+        upvotes: comment.upvotes,
+        downvotes: comment.downvotes,
+        created_at: comment.created_at,
+        updated_at: comment.updated_at,
+        reply_count: comment.replies.count,
+        upvoted: false,
+        downvoted: false,
+        avatar: '',
+        screen_name: ''
+      }
+      user_details = Cache.core.get("user:#{comment.user_id}:details")
+      if user_details.present?
+        user = JSON.parse(user_details)
+        comment_resp[:avatar] = user['profile_pic']
+        comment_resp[:screen_name] = user['screen_name']
+      end
+
+      if user_id.present?
+        vote = Vote.find_by(voteable_type: 'Comment', voteable_id: comment.id, user_id: user_id)
+        if vote.present?
+          comment_resp[:upvoted] = vote.up
+          comment_resp[:downvoted] = vote.down
+        end
+      end
+      comment_resp
     end
 
     def post_show_response(post, user_id=nil)
