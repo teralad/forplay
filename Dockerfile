@@ -1,4 +1,4 @@
-FROM ruby:3.2.2-buster
+FROM ruby:slim-bullseye
 
 RUN apt-get update -qq && apt-get install -y build-essential
 RUN apt-get install -y curl
