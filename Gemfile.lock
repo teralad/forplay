@@ -281,7 +281,7 @@ DEPENDENCIES
   bootstrap-sass
   byebug
   capybara (>= 3.31.0)
-  jbuilder (~> 2.10, >= 2.10.0)
+  jbuilder (~> 2.11, >= 2.11.5)
   jquery-rails (>= 4.4.0)
   jwt
   kaminari
